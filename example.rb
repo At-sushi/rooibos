@@ -1,5 +1,5 @@
 require 'gosu'
-require_relative 'src/display'
+require 'rooibos'
 
 # Example usage:
 display 800, 600 do
