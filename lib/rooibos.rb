@@ -79,32 +79,8 @@ module Rooibos
       Rectangle.new(width, height).instance_exec(&block).render
     end
 
-    def ellipse(rx, ry, &block)
-      ImageTransformer.new(Ellipse.get_image(rx, ry)).instance_exec(&block).render
-    end
-
     def polygon(sides, length, &block)
       ImageTransformer.new(Polygon.get_image(sides, length)).instance_exec(&block).render
-    end
-
-    def polyline(points, &block)
-      ImageTransformer.new(Polyline.get_image(points)).instance_exec(&block).render
-    end
-
-    def bezier_curve(control_points, &block)
-      BezierCurve.new(control_points).instance_exec(&block).render
-    end
-
-    def arc(rx, ry, start_angle, end_angle, &block)
-      Arc.new(rx, ry, start_angle, end_angle).instance_exec(&block).render
-    end
-
-    def thick_arc(rx, ry, start_angle, end_angle, thickness, &block)
-      ThickArc.new(rx, ry, start_angle, end_angle, thickness).instance_exec(&block).render
-    end
-
-    def pie_slice(rx, ry, start_angle, end_angle)
-      PieSlice.new(rx, ry, start_angle, end_angle).render
     end
 
     def text_box(content, width, height, &block)
@@ -145,23 +121,8 @@ module Rooibos
       self
     end
 
-    def flip_horizontal
-      puts("Flipping picture horizontally.")
-      self
-    end
-
-    def flip_vertical
-      puts("Flipping picture vertically.")
-      self
-    end
-
     def resize(width, height)
       puts("Resizing picture to #{width}x#{height}.")
-      self
-    end
-
-    def brightness(level)
-      puts("Adjusting picture brightness to level #{level}.")
       self
     end
 
@@ -184,27 +145,6 @@ module Rooibos
       @blend_mode = mode
       self
     end
-
-    def contrast(level)
-      puts("Adjusting picture contrast to level #{level}.")
-      self
-    end
-
-    def saturation(level)
-      puts("Adjusting picture saturation to level #{level}.")
-      @image.set_saturation(level)
-      self
-    end
-
-    def grayscale
-      puts("Converting picture to grayscale.")
-      self
-    end
-
-    def sepia
-      puts("Applying sepia filter to picture.")
-      self
-    end
   end
 
   #  Base ImageTransformer class
@@ -217,6 +157,12 @@ module Rooibos
 
     def crop(x, y, width, height)
       @image = @image.subimage(x, y, width, height)
+      self
+    end
+
+    def saturation(level)
+      puts("Adjusting picture saturation to level #{level}.")
+      @image.set_saturation(level)
       self
     end
 
@@ -286,18 +232,6 @@ module Rooibos
     end
   end
 
-  class Ellipse < ImageTransformer
-    def initialize(rx, ry)
-      super()
-      @rx = rx
-      @ry = ry
-    end
-
-    def render
-      puts("Rendering ellipse with radii #{@rx} and #{@ry}.")
-    end
-  end
-
   class Polygon < ImageTransformer
     def initialize(sides, length)
       super()
@@ -307,97 +241,6 @@ module Rooibos
 
     def render
       puts("Rendering polygon with #{@sides} sides of length #{@length}.")
-    end
-  end
-
-  class Polyline < ImageTransformer
-    def initialize(points)
-      super()
-      @points = points
-    end
-
-    def render
-      puts("Rendering polyline with points #{@points}.")
-    end
-  end
-
-  class BezierCurve < ImageTransformer
-    def initialize(control_points)
-      super()
-      @control_points = control_points
-    end
-
-    def render
-      puts("Rendering Bezier curve with control points #{@control_points}.")
-    end
-  end
-
-  class Arc < ImageTransformer
-    def initialize(rx, ry, start_angle, end_angle)
-      super()
-      @rx = rx
-      @ry = ry
-      @start_angle = start_angle
-      @end_angle = end_angle
-    end
-
-    def render
-      puts("Rendering arc with radii #{@rx}, #{@ry} from angle #{@start_angle} to #{@end_angle}.")
-    end
-  end
-
-  class ThickArc < ImageTransformer
-    def initialize(rx, ry, start_angle, end_angle, thickness)
-      super()
-      @rx = rx
-      @ry = ry
-      @start_angle = start_angle
-      @end_angle = end_angle
-      @thickness = thickness
-    end
-
-    def render
-      puts("Rendering thick arc with radii #{@rx}, #{@ry} from angle #{@start_angle} to #{@end_angle} with thickness #{@thickness}.")
-    end
-  end
-
-  class PieSlice < ImageTransformer
-    def initialize(rx, ry, start_angle, end_angle)
-      super()
-      @rx = rx
-      @ry = ry
-      @start_angle = start_angle
-      @end_angle = end_angle
-    end
-
-    def render
-      puts("Rendering pie slice with radii #{@rx}, #{@ry} from angle #{@start_angle} to #{@end_angle}.")
-    end
-  end
-
-  class TextBox < ImageTransformer
-    def initialize(content, width, height)
-      super()
-      @content = content
-      @width = width
-      @height = height
-    end
-
-    def render
-      puts("Rendering text box with content '#{@content}' of size #{@width}x#{@height}.")
-    end
-  end
-
-  class Sprite < ImageTransformer
-    def initialize(image_path, x, y)
-      super()
-      @image_path = image_path
-      @x = x
-      @y = y
-    end
-
-    def render
-      puts("Rendering sprite from #{@image_path} at position (#{@x}, #{@y}).")
     end
   end
 
