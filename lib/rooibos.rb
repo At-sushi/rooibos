@@ -94,6 +94,10 @@ module Rooibos
     def bitmap(file_path, &block)
       ImageTransformer.new(Bitmap.get_image(file_path)).instance_exec(&block).render
     end
+
+    def tilemap(image_path, tile_width, tile_height, index, &block)
+      ImageTransformer.new(Tilemap.new(image_path, tile_width, tile_height).get(index)).instance_exec(&block).render
+    end
   end
 
   # Picture2D module to provide transformation and styling methods for 2D graphics
@@ -262,11 +266,9 @@ module Rooibos
       @images = Tilemap.get_image(image_path, tile_width, tile_height)
     end
 
-    def render
-      puts("Rendering tilemap with #{@images.length} tiles.")
-      @images.each_with_index do |image, index|
-        image.draw(((@x or 0) + ((index % 10) * image.width)), ((@y or 0) + ((index / 10) * image.height)), (@z or 0), (@scale_x or 1), (@scale_y or 1), (@color or Gosu::Color::WHITE), (@blend_mode or :default))
-      end
+    def get(index)
+      "Retrieving tile at index #{index} from tilemap."
+      @images[index]
     end
 
     private

@@ -43,6 +43,12 @@ display 800, 600 do
       thickness 4
       # render
     end
+
+    tilemap("tileset.png", 32, 32, 0) do
+      translate 500, 300
+      scale 2, 2
+      # render
+    end
   end
 
 #   show
