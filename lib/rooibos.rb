@@ -274,7 +274,7 @@ module Rooibos
     private
 
     def self.get_image(image_path, tile_width, tile_height)
-      Gosu::Image.from_tilemap(image_path, tile_width, tile_height)
+      Gosu::Image.load_tiles(image_path, tile_width, tile_height)
     end
 
     memo_wise(:self => :get_image)
@@ -306,4 +306,6 @@ module Rooibos
   end
 
   at_exit { clear_cache }
+
+  module_function(:display, :set_cache_enabled, :clear_cache)
 end

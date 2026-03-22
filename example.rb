@@ -2,7 +2,7 @@ require 'gosu'
 require 'rooibos'
 
 # Example usage:
-display 800, 600 do
+Rooibos::display 800, 600 do
   caption "My Gosu Window"
   background_color Gosu::Color::WHITE
 
